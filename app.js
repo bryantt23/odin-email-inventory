@@ -41,3 +41,23 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+/*
+Plan
+show messages as a list
+have a button that to copy that sends to clipboard
+
+add a create form
+make it work then redirect to messages
+
+have an edit and delete button
+make the delete button work
+make the edit button work
+
+make the home page have a link to messages
+
+lock down the messages pages unless there's a pw
+
+deploy
+
+*/
