@@ -55,7 +55,13 @@ exports.message_create_post = [
     } else {
       // Data from form is valid. Save message.
       await message.save();
-      res.redirect('/messages/');
+      res.redirect('/messages');
     }
   })
 ];
+
+// Handle message delete on POST.
+exports.message_delete_get = asyncHandler(async (req, res, next) => {
+  await Message.findByIdAndDelete(req.params.id);
+  res.redirect('/messages');
+});
