@@ -30,7 +30,7 @@
 
       <div>
         <label for="text">Text:</label>
-        <input type="text" id="text" name="text" value="<%= message ? message.text : '' %>" required minlength="7" />
+        <textarea id="text" name="text" required minlength="5"><%= message ? message.text : '' %></textarea>
       </div>
 
       <div>
