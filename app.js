@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   session({
-    secret: 'your_secret_key',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true
   })
@@ -44,7 +44,7 @@ app.post('/login', (req, res) => {
     req.session.isAuthenticated = true;
     res.redirect('/messages');
   } else {
-    res.send('Incorrect Password');
+    res.render('index', { title: 'Express', message: 'Incorrect Password' });
   }
 });
 
