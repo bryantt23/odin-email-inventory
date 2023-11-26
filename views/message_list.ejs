@@ -1,12 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Message List</title>
+    <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script>
+      function copyText(text) {
+        navigator.clipboard
+          .writeText(text)
+          .then(function () {
+            console.log('Text copied to clipboard');
+          })
+          .catch(function (error) {
+            console.error('Error in copying text: ', error);
+          });
+      }
+    </script>
   </head>
   <body>
-    <h1>Message List</h1>
-    <p>Welcome to Message List</p>
-    <%= messages %>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Title</th>
+          <th>Text</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% messages.forEach(function(message) { %>
+        <tr>
+          <td><%= message.category %></td>
+          <td><%= message.title %></td>
+          <td><%= message.text %></td>
+          <td>
+            <!-- Button to copy the text of the message -->
+            <button onclick="copyText('<%= message.text %>')">Copy Text</button>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
   </body>
 </html>

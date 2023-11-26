@@ -6,5 +6,5 @@ exports.index = asyncHandler(async (req, res, next) => {
   // Get messages
   const allMessages = await Message.find();
 
-  res.render('message_list', { messages: allMessages });
+  res.render('message_list', { messages: allMessages, title: 'Messages List' });
 });
