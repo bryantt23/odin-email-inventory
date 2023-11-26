@@ -6,7 +6,10 @@ function isAuthenticated(req, res, next) {
     return next();
   }
 
-  res.status(401).send('You are not authorized to view this page');
+  res.render('index', {
+    title: 'Express',
+    message: ''
+  });
 }
 
 router.use(isAuthenticated);

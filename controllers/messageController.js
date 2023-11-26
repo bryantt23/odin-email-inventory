@@ -4,7 +4,7 @@ const Message = require('../models/message');
 
 exports.index = asyncHandler(async (req, res, next) => {
   // Get messages
-  const allMessages = await Message.find();
+  const allMessages = await Message.find().sort({ category: 1 });
 
   res.render('message_list', { messages: allMessages, title: 'Messages List' });
 });
@@ -23,8 +23,8 @@ exports.message_create_get = asyncHandler(async (req, res, next) => {
 
 // Handle message create on POST.
 exports.message_create_post = [
-  // Validate and sanitize fields.
-  body('text', 'Text must not be empty.').trim().isLength({ min: 7 }).escape(),
+  // Validate fields.
+  body('text', 'Text must not be empty.').trim().isLength({ min: 7 }),
   body('category', 'Category must not be empty.')
     .trim()
     .isLength({ min: 1 })
@@ -88,7 +88,7 @@ exports.message_update_get = asyncHandler(async (req, res, next) => {
 // Handle message update on POST.
 exports.message_update_post = [
   // Validate and sanitize fields.
-  body('text', 'Text must not be empty.').trim().isLength({ min: 7 }).escape(),
+  body('text', 'Text must not be empty.').trim().isLength({ min: 7 }),
   body('category', 'Category must not be empty.')
     .trim()
     .isLength({ min: 1 })
