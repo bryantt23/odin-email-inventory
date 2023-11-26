@@ -37,10 +37,8 @@
           <td><%= message.title %></td>
           <td><%= message.text %></td>
           <td>
-            <!-- Button to copy the text of the message -->
             <button onclick="copyText('<%= message.text %>')">Copy Text</button>
-            <a href="/messages/<%= message._id %>/edit">Edit</a>
-            <!-- Delete link (could be a button or POST form for safety) -->
+            <a href="/messages/<%= message._id %>/update">Update</a>
             <a
               href="/messages/<%= message._id %>/delete"
               onclick="return confirm('Are you sure you want to delete this message?');"

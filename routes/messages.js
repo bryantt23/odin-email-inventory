@@ -18,4 +18,10 @@ router.post('/create', message_controller.message_create_post);
 // GET request to delete Message.
 router.get('/:id/delete', message_controller.message_delete_get);
 
+// GET request to update Message.
+router.get('/:id/update', message_controller.message_update_get);
+
+// POST request to update Message.
+router.post('/:id/update', message_controller.message_update_post);
+
 module.exports = router;

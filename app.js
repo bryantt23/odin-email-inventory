@@ -61,9 +61,9 @@ have a button that to copy that sends to clipboard x
 add a create form x
 make it work then redirect to messages x
 
-have an edit and delete button
-make the delete button work
-make the edit button work
+have an edit and delete button x
+make the delete button work x
+make the edit button work x
 
 make the home page have a link to messages
 
