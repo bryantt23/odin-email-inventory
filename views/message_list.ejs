@@ -25,7 +25,6 @@
       <thead>
         <tr>
           <th>Category</th>
-          <th>Title</th>
           <th>Text</th>
           <th>Actions</th>
         </tr>
@@ -34,7 +33,6 @@
         <% messages.forEach(function(message) { %>
         <tr>
           <td><%= message.category %></td>
-          <td><%= message.title %></td>
           <td><%= message.text %></td>
           <td>
             <button onclick="copyText('<%= message.text %>')">Copy Text</button>

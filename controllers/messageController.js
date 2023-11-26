@@ -24,10 +24,6 @@ exports.message_create_get = asyncHandler(async (req, res, next) => {
 // Handle message create on POST.
 exports.message_create_post = [
   // Validate and sanitize fields.
-  body('title', 'Title must not be empty.')
-    .trim()
-    .isLength({ min: 2 })
-    .escape(),
   body('text', 'Text must not be empty.').trim().isLength({ min: 7 }).escape(),
   body('category', 'Category must not be empty.')
     .trim()
@@ -41,7 +37,6 @@ exports.message_create_post = [
 
     // Create a Message object with escaped and trimmed data.
     const message = new Message({
-      title: req.body.title,
       text: req.body.text,
       category: req.body.category
     });
@@ -84,7 +79,6 @@ exports.message_update_get = asyncHandler(async (req, res, next) => {
   res.render('message_form', {
     page_title: 'Update Message',
     category: message.category,
-    title: message.title,
     text: message.text,
     categories: allCategories,
     message
@@ -94,10 +88,6 @@ exports.message_update_get = asyncHandler(async (req, res, next) => {
 // Handle message update on POST.
 exports.message_update_post = [
   // Validate and sanitize fields.
-  body('title', 'Title must not be empty.')
-    .trim()
-    .isLength({ min: 2 })
-    .escape(),
   body('text', 'Text must not be empty.').trim().isLength({ min: 7 }).escape(),
   body('category', 'Category must not be empty.')
     .trim()
@@ -111,7 +101,6 @@ exports.message_update_post = [
 
     // Create a Message object with escaped and trimmed data.
     const update = {
-      title: req.body.title,
       text: req.body.text,
       category: req.body.category
     };
@@ -120,7 +109,7 @@ exports.message_update_post = [
       // There are errors. Render form again with sanitized values/error messages.
       res.render('message_form', {
         pageTitle: 'Create Message',
-        text: text,
+        text: req.body.text,
         errors: errors.array()
       });
     } else {

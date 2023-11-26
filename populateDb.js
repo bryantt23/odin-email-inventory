@@ -25,18 +25,16 @@ async function main() {
   mongoose.connection.close();
 }
 
-async function messageCreate(category, title, text) {
-  const message = new Message({ category, title, text });
+async function messageCreate(category, text) {
+  const message = new Message({ category, text });
   await message.save();
-  console.log(
-    `Added message: category ${category}, title ${title}, text ${text}`
-  );
+  console.log(`Added message: category ${category}, text ${text}`);
 }
 
 async function createMessages() {
   console.log('Adding messages');
   await Promise.all([
-    messageCreate('General', 'Hi', 'Hi how are you?'),
-    messageCreate('General2', 'Hi2', 'Hi how are you? 2')
+    messageCreate('General', 'Hi how are you?'),
+    messageCreate('General2', 'Hi how are you? 2')
   ]);
 }

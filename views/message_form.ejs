@@ -24,13 +24,8 @@
       </div>
 
       <div>
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" value="<%= message ? message.title : '' %>" required minlength="2" />
-      </div>
-
-      <div>
         <label for="text">Text:</label>
-        <textarea id="text" name="text" required minlength="5"><%= message ? message.text : '' %></textarea>
+        <textarea id="text" name="text" required minlength="2"><%= message ? message.text : '' %></textarea>
       </div>
 
       <div>
