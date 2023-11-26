@@ -55,10 +55,10 @@ module.exports = app;
 
 /*
 Plan
-show messages as a list
-have a button that to copy that sends to clipboard
+show messages as a list x 
+have a button that to copy that sends to clipboard x
 
-add a create form
+add a create form 
 make it work then redirect to messages
 
 have an edit and delete button

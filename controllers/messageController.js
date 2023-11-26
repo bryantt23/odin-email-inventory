@@ -8,3 +8,14 @@ exports.index = asyncHandler(async (req, res, next) => {
 
   res.render('message_list', { messages: allMessages, title: 'Messages List' });
 });
+
+// Display message create form on GET.
+exports.message_create_get = asyncHandler(async (req, res, next) => {
+  // Get categories, which we can use for adding to our message.
+  const allCategories = await Message.distinct('category');
+
+  res.render('message_form', {
+    title: 'Create a Message',
+    categories: allCategories
+  });
+});

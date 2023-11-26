@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script>
+      function copyText(text) {
+        navigator.clipboard
+          .writeText(text)
+          .then(function () {
+            console.log('Text copied to clipboard');
+          })
+          .catch(function (error) {
+            console.error('Error in copying text: ', error);
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <p><a href="/messages">Show All Messages</a></p>
+    <%= categories %>
+  </body>
+</html>
