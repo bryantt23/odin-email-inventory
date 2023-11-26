@@ -1,6 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+function isAuthenticated(req, res, next) {
+  if (req.session.isAuthenticated) {
+    return next();
+  }
+
+  res.status(401).send('You are not authorized to view this page');
+}
+
+router.use(isAuthenticated);
+
 // Require controller modules.
 const message_controller = require('../controllers/messageController');
 
