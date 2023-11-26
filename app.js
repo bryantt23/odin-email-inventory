@@ -65,7 +65,7 @@ have an edit and delete button x
 make the delete button work x
 make the edit button work x
 
-make the home page have a link to messages
+make the home page have a link to messages x
 
 lock down the messages pages unless there's a pw
 
