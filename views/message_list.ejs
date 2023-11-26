@@ -3,6 +3,34 @@
   <head>
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 4fr 1fr; /* Adjust the ratio as needed */
+        gap: 10px;
+        width: 100%;
+        padding: 10px;
+      }
+
+      .grid-item {
+        padding: 5px; /* Add padding for spacing within grid items */
+      }
+
+      @media (max-width: 600px) {
+        .grid-container {
+          grid-template-columns: 1fr; /* Stack the items in one column on small screens */
+        }
+
+        .grid-item.text {
+          font-size: 80%; /* Set the text size to 80% */
+        }
+
+        /* Additional responsive styles */
+      }
+
+      /* Additional styles for buttons, fonts, etc. */
+    </style>
     <script>
       function copyText(text) {
         navigator.clipboard
@@ -21,31 +49,20 @@
     <p>Welcome to <%= title %></p>
     <p><a href="/messages/create">Add a Message</a></p>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th>Text</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% messages.forEach(function(message) { %>
-        <tr>
-          <td><%= message.category %></td>
-          <td><%= message.text %></td>
-          <td>
-            <button onclick="copyText('<%= message.text %>')">Copy Text</button>
-            <a href="/messages/<%= message._id %>/update">Update</a>
-            <a
-              href="/messages/<%= message._id %>/delete"
-              onclick="return confirm('Are you sure you want to delete this message?');"
-              >Delete</a
-            >
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
+    <div class="grid-container">
+      <% messages.forEach(function(message) { %>
+      <div class="grid-item category"><%= message.category %></div>
+      <div class="grid-item text"><%= message.text %></div>
+      <div class="grid-item actions">
+        <button onclick="copyText('<%= message.text %>')">Copy Text</button>
+        <a href="/messages/<%= message._id %>/update">Update</a>
+        <a
+          href="/messages/<%= message._id %>/delete"
+          onclick="return confirm('Are you sure you want to delete this message?');"
+          >Delete</a
+        >
+      </div>
+      <% }) %>
+    </div>
   </body>
 </html>
