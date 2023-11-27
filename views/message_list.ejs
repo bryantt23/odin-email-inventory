@@ -31,18 +31,6 @@
 
       /* Additional styles for buttons, fonts, etc. */
     </style>
-    <script>
-      function copyText(text) {
-        navigator.clipboard
-          .writeText(text)
-          .then(function () {
-            console.log('Text copied to clipboard');
-          })
-          .catch(function (error) {
-            console.error('Error in copying text: ', error);
-          });
-      }
-    </script>
   </head>
   <body>
     <h1><%= title %></h1>
@@ -54,7 +42,7 @@
       <div class="grid-item category"><%= message.category %></div>
       <div class="grid-item text"><%= message.text %></div>
       <div class="grid-item actions">
-        <button onclick="copyText('<%= message.text %>')">Copy Text</button>
+        <button data-message-text="<%= message.text %>">Copy Text</button>
         <a href="/messages/<%= message._id %>/update">Update</a>
         <a
           href="/messages/<%= message._id %>/delete"
@@ -64,5 +52,31 @@
       </div>
       <% }) %>
     </div>
+    <script>
+      function copyText(text) {
+        navigator.clipboard
+          .writeText(text)
+          .then(function () {
+            console.log('Text copied to clipboard');
+          })
+          .catch(function (error) {
+            console.error('Error in copying text: ', error);
+          });
+      }
+
+      function escapeForJS(str) {
+        return str
+          .replace(/\\/g, '\\\\')
+          .replace(/'/g, "\\'")
+          .replace(/"/g, '\\"');
+      }
+
+      document.querySelectorAll('button[data-message-text]').forEach(button => {
+        button.addEventListener('click', function () {
+          const text = escapeForJS(this.getAttribute('data-message-text'));
+          copyText(text);
+        });
+      });
+    </script>
   </body>
 </html>
