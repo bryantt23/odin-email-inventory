@@ -65,10 +65,7 @@
       }
 
       function escapeForJS(str) {
-        return str
-          .replace(/\\/g, '\\\\')
-          .replace(/'/g, "\\'")
-          .replace(/"/g, '\\"');
+        return str.replace(/\\/g, '\\\\').replace(/'/g, "'").replace(/"/g, '"');
       }
 
       document.querySelectorAll('button[data-message-text]').forEach(button => {
