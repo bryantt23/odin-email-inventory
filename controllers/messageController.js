@@ -4,7 +4,7 @@ const Message = require('../models/message');
 
 exports.index = asyncHandler(async (req, res, next) => {
   // Get messages
-  const allMessages = await Message.find().sort({ category: 1 });
+  const allMessages = await Message.find().sort({ category: 1, text: 1 });
 
   res.render('message_list', { messages: allMessages, title: 'Messages List' });
 });
