@@ -5,8 +5,9 @@ const Message = require('../models/message');
 exports.index = asyncHandler(async (req, res, next) => {
   // Get messages
   const allMessages = await Message.find().sort({ category: 1, text: 1 });
-
-  res.render('message_list', { messages: allMessages, title: 'Messages List' });
+  const jobMessages = allMessages.filter(message => message.category === "Jobs")
+  const tinderMessages = allMessages.filter(message => ["Tinder", "General"].includes(message.category))
+  res.render('message_list', { messages: { tinderMessages, jobMessages, allMessages }, title: 'Messages List' });
 });
 
 // Display message create form on GET.
