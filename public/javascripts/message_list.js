@@ -1,5 +1,6 @@
 const filterSelect = document.querySelector('.message-filter');
 const messageList = document.querySelector('.message-list');
+const showArchivedCheckbox = document.querySelector(".show-archived")
 
 // Function to render messages
 function renderMessages(messages) {
@@ -87,7 +88,10 @@ function escapeForJS(str) {
 // Function to handle filter change
 function handleFilterChange() {
     const selectedFilter = filterSelect.value;
+    const showArchived = showArchivedCheckbox.checked
     localStorage.setItem('selectedFilter', selectedFilter);
+    localStorage.setItem("showArchived", showArchived)
+
     let filteredMessages;
     switch (selectedFilter) {
         case 'tinder':
@@ -100,6 +104,12 @@ function handleFilterChange() {
         default:
             filteredMessages = messages.allMessages;
     }
+
+    // If "Show Archived" is not selected, then only show messages that are not archived
+    if (!showArchived) {
+        filteredMessages = filteredMessages.filter(message => !message.isArchived);
+    }
+
     renderMessages(filteredMessages);
 }
 
@@ -126,12 +136,15 @@ async function handleArchiveClick(messageId) {
 // Get the filter value from local storage on page load
 document.addEventListener('DOMContentLoaded', function () {
     const storedFilter = localStorage.getItem('selectedFilter') || 'tinder';
+    const storedShowArchived = localStorage.getItem("showArchived") === 'true'
     filterSelect.value = storedFilter;
+    showArchivedCheckbox.checked = storedShowArchived
     handleFilterChange();
 });
 
 // Event listener for filter select change
 filterSelect.addEventListener('change', handleFilterChange);
+showArchivedCheckbox.addEventListener("change", handleFilterChange)
 
 // Render initial messages based on stored filter (or default to 'tinder')
 renderMessages(messages.tinderMessages);
