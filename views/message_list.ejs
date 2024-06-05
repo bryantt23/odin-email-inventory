@@ -3,47 +3,8 @@
   <head>
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/message_list.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      .grid-container {
-        width: 100%;
-        padding: 10px;
-      }
-
-      .row-container {
-        display: grid;
-        grid-template-columns: 1fr 4fr 1fr; /* Same as previous .grid-container */
-        border: 1px solid #000000; /* 1px solid black border */
-        padding: 5px; /* Add padding for spacing within grid items */
-        margin-bottom: 10px; /* Space between rows */
-      }
-
-      .grid-item {
-        padding: 5px; /* Add padding for spacing within grid items */
-      }
-
-      .message-filter {
-        margin-bottom: 5px;
-      }
-
-      .update-link {
-        padding: 0 5px 0 5px;
-      }
-
-      @media (max-width: 600px) {
-        .row-container {
-          grid-template-columns: 1fr; /* Stack the items in one column on small screens */
-        }
-
-        .grid-item.text {
-          font-size: 80%; /* Set the text size to 80% */
-        }
-
-        /* Additional responsive styles */
-      }
-
-      /* Additional styles for buttons, fonts, etc. */
-    </style>
   </head>
   <body>
     <h1><%= title %></h1>
@@ -61,104 +22,9 @@
     </div>
 
     <script>
-        const messages = <%- JSON.stringify(messages) %>; // Assuming messages is defined server-side
-
-        const filterSelect = document.querySelector('.message-filter');
-        const messageList = document.querySelector('.message-list');
-
-        function renderMessages(messages) {
-          messageList.innerHTML = ''; // Clear existing messages
-
-          if (messages && messages.length) {
-            messages.forEach(message => {
-      const row = document.createElement('div');
-      row.classList.add('row-container');
-
-      const category = document.createElement('div');
-      category.classList.add('grid-item', 'category');
-      category.textContent = message.category;
-
-      const text = document.createElement('div');
-      text.classList.add('grid-item', 'text');
-      text.textContent = message.text;
-
-      const actions = document.createElement('div');
-      actions.classList.add('grid-item', 'actions');
-
-      // Create and add the copy button
-      const copyButton = document.createElement('button');
-      copyButton.textContent = 'Copy Text';
-      copyButton.dataset.messageText = message.text;
-      copyButton.addEventListener('click', () => copyText(copyButton.dataset.messageText));
-      actions.appendChild(copyButton);
-
-      // Create and add the update link
-      const updateLink = document.createElement('a');
-      updateLink.classList.add('update-link');
-      updateLink.href = `/messages/${message._id}/update`;
-      updateLink.textContent = 'Update';
-      actions.appendChild(updateLink);
-
-      // Create and add the delete link
-      const deleteLink = document.createElement('a');
-      deleteLink.href = `/messages/${message._id}/delete`;
-      deleteLink.textContent = 'Delete';
-      deleteLink.onclick = () => confirm('Are you sure you want to delete this message?');
-      actions.appendChild(deleteLink);
-
-      // Now append all elements to the row
-      row.appendChild(category);
-      row.appendChild(text);
-      row.appendChild(actions);
-
-      messageList.appendChild(row);
-              });
-          } else {
-            messageList.innerHTML = '<p>No messages found.</p>';
-          }
-        }
-
-        function copyText(text) {
-          navigator.clipboard
-            .writeText(text)
-            .then(function () {
-              console.log('Text copied to clipboard');
-            })
-            .catch(function (error) {
-              console.error('Error in copying text: ', error);
-            });
-        }
-
-        function escapeForJS(str) {
-          return str.replace(/\\/g, '\\\\').replace(/'/g, "'").replace(/"/g, '"');
-        }
-
-        document.querySelectorAll('button[data-message-text]').forEach(button => {
-          button.addEventListener('click', function () {
-            const text = escapeForJS(this.getAttribute('data-message-text'));
-            copyText(text);
-          });
-        });
-
-        filterSelect.addEventListener('change', function () {
-          const selectedFilter = this.value;
-          let filteredMessages;
-          switch (selectedFilter) {
-            case 'tinder':
-              filteredMessages = messages.tinderMessages;
-              break;
-            case 'jobs':
-              filteredMessages = messages.jobMessages;
-              break;
-            case 'all':
-            default:
-              filteredMessages = messages.allMessages;
-          }
-          renderMessages(filteredMessages);
-        });
-
-        // Render initial messages (tinder messages by default)
-        renderMessages(messages.tinderMessages);
+      const messages = <%- JSON.stringify(messages) %>;
     </script>
+    </script>
+    <script src="/javascripts/message_list.js"></script>
   </body>
 </html>
