@@ -44,6 +44,17 @@ function renderMessages(messages) {
             deleteLink.onclick = () => confirm('Are you sure you want to delete this message?');
             actions.appendChild(deleteLink);
 
+            // Create and add the isArchived checkbox
+            const isArchivedCheckbox = document.createElement("input")
+            isArchivedCheckbox.type = "checkbox"
+            isArchivedCheckbox.checked = message.isArchived
+            isArchivedCheckbox.addEventListener("click", () => handleArchiveClick(message._id))
+
+            const isArchivedLabel = document.createElement("label")
+            isArchivedLabel.textContent = "Archived"
+            isArchivedLabel.prepend(isArchivedCheckbox)
+            actions.appendChild(isArchivedLabel)
+
             // Now append all elements to the row
             row.appendChild(category);
             row.appendChild(text);
@@ -92,6 +103,26 @@ function handleFilterChange() {
     renderMessages(filteredMessages);
 }
 
+async function handleArchiveClick(messageId) {
+    try {
+        const response = await fetch(`/messages/${messageId}/toggle-archive`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await response.json()
+        if (data.success) {
+            console.log(`Archive toggled for message ID: ${messageId}`);
+            // Optionally, re-render messages or update the UI to reflect the change
+            // handleFilterChange(); // Re-render the messages
+        } else {
+            console.error('Failed to toggle archive');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 // Get the filter value from local storage on page load
 document.addEventListener('DOMContentLoaded', function () {
     const storedFilter = localStorage.getItem('selectedFilter') || 'tinder';

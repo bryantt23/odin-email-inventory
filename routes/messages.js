@@ -37,4 +37,7 @@ router.get('/:id/update', message_controller.message_update_get);
 // POST request to update Message.
 router.post('/:id/update', message_controller.message_update_post);
 
+// POST request to toggle the isArchived property
+router.post("/:id/toggle-archive", message_controller.toggle_archive)
+
 module.exports = router;

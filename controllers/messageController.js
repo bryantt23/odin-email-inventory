@@ -125,3 +125,21 @@ exports.message_update_post = [
     }
   })
 ];
+
+exports.toggle_archive = asyncHandler(async (req, res, next) => {
+  const messageId = req.params.id
+
+  try {
+    const message = await Message.findById(messageId)
+    if (!message) {
+      return res.status(404).json({ error: "Message not found" })
+    }
+
+    message.isArchived = !message.isArchived;
+    await message.save()
+
+    res.json({ success: true, message })
+  } catch (error) {
+    next(error)
+  }
+})
