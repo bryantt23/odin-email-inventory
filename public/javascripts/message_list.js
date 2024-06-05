@@ -1,6 +1,7 @@
 const filterSelect = document.querySelector('.message-filter');
 const messageList = document.querySelector('.message-list');
 
+// Function to render messages
 function renderMessages(messages) {
     messageList.innerHTML = ''; // Clear existing messages
 
@@ -22,6 +23,7 @@ function renderMessages(messages) {
 
             // Create and add the copy button
             const copyButton = document.createElement('button');
+            copyButton.classList.add("message-action");
             copyButton.textContent = 'Copy Text';
             copyButton.dataset.messageText = message.text;
             copyButton.addEventListener('click', () => copyText(copyButton.dataset.messageText));
@@ -29,13 +31,14 @@ function renderMessages(messages) {
 
             // Create and add the update link
             const updateLink = document.createElement('a');
-            updateLink.classList.add('update-link');
+            updateLink.classList.add("message-action");
             updateLink.href = `/messages/${message._id}/update`;
             updateLink.textContent = 'Update';
             actions.appendChild(updateLink);
 
             // Create and add the delete link
             const deleteLink = document.createElement('a');
+            deleteLink.classList.add("message-action");
             deleteLink.href = `/messages/${message._id}/delete`;
             deleteLink.textContent = 'Delete';
             deleteLink.onclick = () => confirm('Are you sure you want to delete this message?');
@@ -53,6 +56,7 @@ function renderMessages(messages) {
     }
 }
 
+// Function to copy text to clipboard
 function copyText(text) {
     navigator.clipboard
         .writeText(text)
@@ -64,19 +68,15 @@ function copyText(text) {
         });
 }
 
+// Function to escape special characters in a string
 function escapeForJS(str) {
     return str.replace(/\\/g, '\\\\').replace(/'/g, "'").replace(/"/g, '"');
 }
 
-document.querySelectorAll('button[data-message-text]').forEach(button => {
-    button.addEventListener('click', function () {
-        const text = escapeForJS(this.getAttribute('data-message-text'));
-        copyText(text);
-    });
-});
-
-filterSelect.addEventListener('change', function () {
-    const selectedFilter = this.value;
+// Function to handle filter change
+function handleFilterChange() {
+    const selectedFilter = filterSelect.value;
+    localStorage.setItem('selectedFilter', selectedFilter);
     let filteredMessages;
     switch (selectedFilter) {
         case 'tinder':
@@ -90,7 +90,17 @@ filterSelect.addEventListener('change', function () {
             filteredMessages = messages.allMessages;
     }
     renderMessages(filteredMessages);
+}
+
+// Get the filter value from local storage on page load
+document.addEventListener('DOMContentLoaded', function () {
+    const storedFilter = localStorage.getItem('selectedFilter') || 'tinder';
+    filterSelect.value = storedFilter;
+    handleFilterChange();
 });
 
-// Render initial messages (tinder messages by default)
+// Event listener for filter select change
+filterSelect.addEventListener('change', handleFilterChange);
+
+// Render initial messages based on stored filter (or default to 'tinder')
 renderMessages(messages.tinderMessages);
