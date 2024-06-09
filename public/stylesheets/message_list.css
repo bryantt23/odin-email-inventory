@@ -33,6 +33,10 @@
   }
 
   /* Additional responsive styles */
+  body {
+    padding: 5px;
+    font-size: 150%;
+  }
 }
 
 /* Additional styles for buttons, fonts, etc. */
