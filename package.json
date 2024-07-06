@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {        
-    "start": "concurrently \"npm run devstart --prefix backend\" \"npm run dev --prefix frontend/message-manager\"", 
+    "start": "concurrently \"npm run devstart --prefix backend\" \"npm run dev --prefix frontend\"", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
