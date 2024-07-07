@@ -10,15 +10,12 @@ function MessageList() {
     useEffect(() => {
         async function fetchData() {
             const res = await getMessages()
-            console.log("🚀 ~ fetchData ~ res:", res)
             setMessagesFromApi(res)
         }
         fetchData()
     }, [])
 
     useEffect(() => {
-        console.log("🚀 ~ MessageList ~ selectedOption:", selectedOption)
-
         if (messagesFromApi !== null) {
             setMessages(messagesFromApi[`${selectedOption}Messages`])
         }

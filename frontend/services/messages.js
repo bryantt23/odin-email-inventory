@@ -15,3 +15,12 @@ export const getMessages = async () => {
 
     }
 }
+
+export const deleteMessage = async (id) => {
+    try {
+        const res = await api.delete(`/messages/${id}`)
+        return res.data.messages
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+    }
+}
