@@ -12,14 +12,13 @@ export const getMessages = async () => {
         return res.data.messages
     } catch (error) {
         console.error('Error fetching messages:', error);
-
     }
 }
 
-export const deleteMessage = async (id) => {
+export const archiveMessage = async (id) => {
     try {
-        const res = await api.delete(`/messages/${id}`)
-        return res.data.messages
+        const res = await api.put(`/messages/${id}/archive/`)
+        return res.data
     } catch (error) {
         console.error('Error fetching messages:', error);
     }
