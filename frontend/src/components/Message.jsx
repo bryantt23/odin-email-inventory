@@ -3,6 +3,19 @@ import { archiveMessage } from '../../services/messages'
 // import "./Message.css"
 // import Link from 'react-router-dom'
 
+
+// Function to copy text to clipboard
+function copyText(text) {
+    navigator.clipboard
+        .writeText(text)
+        .then(function () {
+            console.log('Text copied to clipboard');
+        })
+        .catch(function (error) {
+            console.error('Error in copying text: ', error);
+        });
+}
+
 function Message({ message }) {
     const [isArchived, setIsArchived] = useState(message.isArchived)
 
@@ -28,7 +41,9 @@ function Message({ message }) {
             <div className='grid-item text'>{message.text}</div>
 
             <div className="grid-item actions">
-                <button className="message-action" data-message-text="Hi how are you? How goes Badoo? 😀">Copy Text</button>
+                <button className="message-action"
+                    onClick={() => copyText(message.text)}
+                >Copy Text</button>
                 {/* <a className="message-action" href="/messages/66856983fa807d875b215358/update">Update</a> */}
                 <label><input type="checkbox"
                     checked={isArchived}
