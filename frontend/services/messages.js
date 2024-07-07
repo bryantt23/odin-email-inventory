@@ -9,8 +9,7 @@ const api = axios.create({
 export const getMessages = async () => {
     try {
         const res = await api.get('/messages')
-        console.log("🚀 ~ getMessages ~ res:", res)
-        return res
+        return res.data.messages
     } catch (error) {
         console.error('Error fetching messages:', error);
 

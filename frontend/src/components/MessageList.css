@@ -1,0 +1,42 @@
+.grid-container {
+  width: 100%;
+  padding: 10px;
+}
+
+.row-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr; /* Same as previous .grid-container */
+  border: 1px solid #000000; /* 1px solid black border */
+  padding: 5px; /* Add padding for spacing within grid items */
+  margin-bottom: 10px; /* Space between rows */
+}
+
+.grid-item {
+  padding: 5px; /* Add padding for spacing within grid items */
+}
+
+.message-filter {
+  margin-bottom: 5px;
+}
+
+.message-action {
+  margin-right: 5px;
+}
+
+@media (max-width: 600px) {
+  .row-container {
+    grid-template-columns: 1fr; /* Stack the items in one column on small screens */
+  }
+
+  .grid-item.text {
+    font-size: 80%; /* Set the text size to 80% */
+  }
+
+  /* Additional responsive styles */
+  body {
+    padding: 5px;
+    font-size: 150%;
+  }
+}
+
+/* Additional styles for buttons, fonts, etc. */
