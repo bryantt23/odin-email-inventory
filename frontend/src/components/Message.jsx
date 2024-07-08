@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { archiveMessage } from '../../services/messages'
 // import "./Message.css"
-// import Link from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 // Function to copy text to clipboard
@@ -44,14 +44,19 @@ function Message({ message }) {
                 <button className="message-action"
                     onClick={() => copyText(message.text)}
                 >Copy Text</button>
-                {/* <a className="message-action" href="/messages/66856983fa807d875b215358/update">Update</a> */}
+                <Link
+                    className="message-action"
+                    to={`/messages/${message._id}/update`}
+                >
+                    Update
+                </Link>
                 <label><input type="checkbox"
                     checked={isArchived}
                     onChange={handleArchive}
                 />Archived</label>
             </div>
 
-        </div>
+        </div >
     )
 }
 

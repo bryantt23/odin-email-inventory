@@ -7,6 +7,7 @@ function MessageList() {
     const [selectedOption, setSelectedOption] = useState("tinder")
     const [messagesFromApi, setMessagesFromApi] = useState(null)
     const [messages, setMessages] = useState([])
+    const [showArchived, setShowArchived] = useState(false)
     useEffect(() => {
         async function fetchData() {
             const res = await getMessages()
@@ -19,7 +20,15 @@ function MessageList() {
         if (messagesFromApi !== null) {
             setMessages(messagesFromApi[`${selectedOption}Messages`])
         }
-    }, [selectedOption, messagesFromApi])
+        /*
+        if show archived, then show everything
+        if not show archived, only show non archived
+        */
+        if (!showArchived) {
+            setMessages(messages => messages.filter(message => !message.isArchived))
+        }
+    }, [selectedOption, messagesFromApi, showArchived])
+
 
     return (
         <div>
@@ -39,7 +48,11 @@ function MessageList() {
                 </select>
 
                 <label>
-                    <input type="checkbox" className="show-archived" />Show Archived
+                    <input type="checkbox"
+                        className="show-archived"
+                        checked={showArchived}
+                        onChange={() => setShowArchived(!showArchived)}
+                    />Show Archived
                 </label>
 
                 <div className="message-list">
