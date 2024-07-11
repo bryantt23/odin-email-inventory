@@ -35,3 +35,13 @@ export const archiveMessage = async (id) => {
         throw error
     }
 }
+
+export const updateMessage = async (message) => {
+    try {
+        const res = await api.put(`/messages/${message._id}`, message)
+        return res.data
+    } catch (error) {
+        console.error('Error updating message:', error);
+        throw error
+    }
+}

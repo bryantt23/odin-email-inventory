@@ -1,4 +1,5 @@
 const express = require('express')
+const { body, validationResult } = require('express-validator')
 const router = express.Router()
 const Message = require('../models/message')
 
@@ -71,5 +72,40 @@ router.get('/messages/:id', async (req, res) => {
     }
 });
 
+// Handle message update on PUT.
+router.put('/messages/:id', [
+    // Validate and sanitize fields.
+    body('text', 'Text must not be empty.').trim().isLength({ min: 7 }),
+    body('category', 'Category must not be empty.')
+        .trim()
+        .isLength({ min: 1 })
+        .escape(),
+
+    async (req, res) => {
+        // Extract the validation errors from a request.
+        const errors = validationResult(req)
+
+        // Create a Message object with escaped and trimmed data.
+        const update = {
+            text: req.body.text,
+            category: req.body.category
+        }
+
+        if (!errors.isEmpty()) {
+            // There are errors. Return the errors array.
+            return res.status(400).json({ errors: errors.array() })
+        }
+
+        try {
+            const updatedMessage = await Message.findByIdAndUpdate(req.params.id, update, { new: true })
+            if (!updatedMessage) {
+                return res.status(404).json({ error: "Message not found" })
+            }
+            res.json({ success: true, message: updatedMessage })
+        } catch (err) {
+            res.status(500).json({ error: err.message })
+        }
+    }
+])
 
 module.exports = router
