@@ -12,6 +12,17 @@ export const getMessages = async () => {
         return res.data.messages
     } catch (error) {
         console.error('Error fetching messages:', error);
+        throw error
+    }
+}
+
+export const getMessage = async (id) => {
+    try {
+        const res = await api.get(`/messages/${id}`)
+        return res.data
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        throw error
     }
 }
 
@@ -21,5 +32,6 @@ export const archiveMessage = async (id) => {
         return res.data
     } catch (error) {
         console.error('Error fetching messages:', error);
+        throw error
     }
 }

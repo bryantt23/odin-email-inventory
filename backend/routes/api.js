@@ -4,7 +4,6 @@ const Message = require('../models/message')
 
 // Get all messages
 router.get('/messages', async (req, res) => {
-    console.log('hiiii')
     try {
         const allMessages = await Message.find().sort({ category: 1, text: 1 })
         const jobMessages = allMessages.filter(message => message.category === "Jobs");
@@ -53,6 +52,24 @@ router.put('/messages/:id/archive', async (req, res) => {
         res.status(500).json({ error: err.message })
     }
 })
+
+// Get message
+router.get('/messages/:id', async (req, res) => {
+    try {
+        // Get message
+        const message = await Message.findById(req.params.id);
+        // Get categories, which we can use for adding to our message.
+        const allCategories = await Message.distinct('category');
+
+        if (message === null) {
+            // No results.
+            return res.status(404).json({ error: "Message not found" })
+        }
+        res.json({ message, allCategories })
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 
 
 module.exports = router
