@@ -152,4 +152,17 @@ router.post('/messages', [
     }
 ])
 
+// Delete message
+router.delete('/messages/:id', async (req, res) => {
+    try {
+        const deletedMessage = await Message.findByIdAndDelete(req.params.id);
+        if (!deletedMessage) {
+            return res.status(404).json({ error: 'Message not found' })
+        }
+        res.status(200).json({ message: 'Message deleted successfully' })
+    } catch (error) {
+        res.status(500).json({ error: err.message })
+    }
+});
+
 module.exports = router

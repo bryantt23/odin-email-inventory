@@ -65,3 +65,13 @@ export const getCategories = async () => {
         throw error
     }
 }
+
+export const deleteMessage = async (id) => {
+    try {
+        const res = await api.delete(`/messages/${id}`)
+        return res.data
+    } catch (error) {
+        console.error('Error deleting message:', error);
+        throw error
+    }
+}
