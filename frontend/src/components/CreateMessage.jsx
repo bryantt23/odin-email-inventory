@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { getMessage, updateMessage } from '../../services/messages'
-import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { createMessage, getCategories } from '../../services/messages';
 
-function UpdateMessage() {
-  let { id } = useParams()
-  const [message, setMessage] = useState([])
+function CreateMessage() {
   const [text, setText] = useState(null)
+  const [categories, setCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await getMessage(id)
-        setMessage(res.message)
-        setText(res.message.text)
+        const res = await getCategories()
+        setCategories(res)
       } catch (error) {
         console.error(error)
       }
@@ -22,11 +20,15 @@ function UpdateMessage() {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    setSelectedCategory(categories[0])
+  }, [categories])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const updatedMessage = { ...message, text }
-      await updateMessage(updatedMessage)
+      const message = { text, category: selectedCategory }
+      await createMessage(message)
       navigate('/')
     } catch (error) {
       console.error(error)
@@ -35,8 +37,8 @@ function UpdateMessage() {
 
   return (
     <div>
-      <h1>Update Message</h1>
-      <p>Welcome to Update Message</p>
+      <h1>Create a Message</h1>
+      <p>Welcome to Create a Message</p>
       <Link to="/">Show All Messages</Link>
       <form onSubmit={handleSubmit}>
         <div>
@@ -44,9 +46,10 @@ function UpdateMessage() {
           <select
             name="category"
             id="category"
-            disabled={true}
-            value={"message.category"}>
-            <option value={message.category}>{message.category}</option>
+            value={selectedCategory}
+            onChange={e => setSelectedCategory(e.target.value)}>
+            {categories.map(category => <option key={category} value={category}>{category}</option>
+            )}
           </select>
         </div>
 
@@ -69,4 +72,4 @@ function UpdateMessage() {
     </div>
   )
 }
-export default UpdateMessage
+export default CreateMessage
