@@ -108,4 +108,16 @@ router.put('/messages/:id', [
     }
 ])
 
+// Get message categories
+router.get('/messages/categories', async (req, res) => {
+    try {
+        // Get categories, which we can use for adding to our message.
+        const allCategories = await Message.distinct('category')
+        res.json(allCategories)
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+})
+
 module.exports = router
