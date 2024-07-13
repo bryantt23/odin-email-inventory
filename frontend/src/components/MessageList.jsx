@@ -4,10 +4,16 @@ import "./MessageList.css"
 import Message from './Message'
 
 function MessageList() {
-    const [selectedOption, setSelectedOption] = useState("tinder")
+    const [selectedOption, setSelectedOption] = useState(() => {
+        return localStorage.getItem('selectedFilter') || 'tinder'
+    })
     const [messagesFromApi, setMessagesFromApi] = useState(null)
     const [messages, setMessages] = useState([])
-    const [showArchived, setShowArchived] = useState(false)
+    const [showArchived, setShowArchived] = useState(() => {
+        const storedValue = localStorage.getItem('showArchived')
+        return storedValue ? JSON.parse(storedValue) : false
+    })
+
     useEffect(() => {
         async function fetchData() {
             const res = await getMessages()
@@ -17,6 +23,10 @@ function MessageList() {
     }, [])
 
     useEffect(() => {
+        if (selectedOption) {
+            localStorage.setItem('selectedFilter', selectedOption.toLowerCase());
+        }
+
         if (messagesFromApi !== null) {
             setMessages(messagesFromApi[`${selectedOption}Messages`])
         }
@@ -27,6 +37,8 @@ function MessageList() {
         if (!showArchived) {
             setMessages(messages => messages.filter(message => !message.isArchived))
         }
+        localStorage.setItem('showArchived', JSON.stringify(showArchived));
+
     }, [selectedOption, messagesFromApi, showArchived])
 
 
@@ -41,6 +53,7 @@ function MessageList() {
                 <select
                     className="message-filter"
                     onChange={(e) => setSelectedOption(e.target.value)}
+                    value={selectedOption}
                 >
                     <option value="tinder">Tinder</option>
                     <option value="job">Job</option>
@@ -61,7 +74,7 @@ function MessageList() {
                     }
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
