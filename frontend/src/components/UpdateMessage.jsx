@@ -27,7 +27,7 @@ function UpdateMessage() {
     try {
       const updatedMessage = { ...message, text }
       await updateMessage(updatedMessage)
-      navigate('/')
+      navigate('/messages')
     } catch (error) {
       console.error(error)
     }
@@ -37,7 +37,7 @@ function UpdateMessage() {
     <div>
       <h1>Update Message</h1>
       <p>Welcome to Update Message</p>
-      <Link to="/">Show All Messages</Link>
+      <Link to="/messages">Show All Messages</Link>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="category">Category:</label>

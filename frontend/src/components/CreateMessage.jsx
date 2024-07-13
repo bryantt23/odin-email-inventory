@@ -29,7 +29,7 @@ function CreateMessage() {
     try {
       const message = { text, category: selectedCategory }
       await createMessage(message)
-      navigate('/')
+      navigate('/messages')
     } catch (error) {
       console.error(error)
     }
@@ -39,7 +39,7 @@ function CreateMessage() {
     <div>
       <h1>Create a Message</h1>
       <p>Welcome to Create a Message</p>
-      <Link to="/">Show All Messages</Link>
+      <Link to="/messages">Show All Messages</Link>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="category">Category:</label>
