@@ -8,7 +8,6 @@ const api = axios.create({
 });
 
 export const login = async (password) => {
-    console.log("🚀 ~ login ~ password:", password);
     try {
         const res = await api.post('/login', { password }); // Ensure correct endpoint
         return res.data;

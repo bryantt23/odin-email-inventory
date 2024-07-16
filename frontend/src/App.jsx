@@ -15,7 +15,6 @@ function App() {
   const handleLogin = async (password) => {
     try {
       const res = await login(password)
-      console.log("🚀 ~ handleLogin ~ res:", res)
       if (res.isAuthenticated) {
         setIsLoggedIn(true)
         navigate('/messages')
@@ -27,7 +26,6 @@ function App() {
   useEffect(() => {
     async function fetchData() {
       const status = await checkLoginStatus()
-      console.log("🚀 ~ fetchData ~ status:", status)
       if (status.isAuthenticated) {
         setIsLoggedIn(true)
       }
