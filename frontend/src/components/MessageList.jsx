@@ -14,6 +14,7 @@ function MessageList() {
         const storedValue = localStorage.getItem('showArchived')
         return storedValue ? JSON.parse(storedValue) : false
     })
+    const [messagesHaveChanged, setMessagesHaveChange] = useState(false)
 
     useEffect(() => {
         async function fetchData() {
@@ -21,7 +22,7 @@ function MessageList() {
             setMessagesFromApi(res)
         }
         fetchData()
-    }, [])
+    }, [messagesHaveChanged])
 
     useEffect(() => {
         if (selectedOption) {
@@ -42,10 +43,12 @@ function MessageList() {
 
     }, [selectedOption, messagesFromApi, showArchived])
 
+    const handleMessageChange = () => {
+        setMessagesHaveChange(prev => !prev)
+    }
 
     return (
         <div>
-
             <h1>Messages List</h1>
             <p>Welcome to Messages List</p>
             <p><Link to="/messages/create">Add a Message</Link></p>
@@ -71,11 +74,11 @@ function MessageList() {
 
                 <div className="message-list">
                     {
-                        messages.map(message => <Message key={message._id} message={message} />)
+                        messages.map(message => <Message key={message._id} message={message} onMessageChange={handleMessageChange} />)
                     }
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
 

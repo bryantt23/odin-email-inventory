@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { archiveMessage, deleteMessage } from '../../services/messages';
 
 // Function to copy text to clipboard
@@ -14,9 +14,8 @@ function copyText(text) {
         });
 }
 
-function Message({ message }) {
+function Message({ message, onMessageChange }) {
     const [isArchived, setIsArchived] = useState(message.isArchived)
-    const navigate = useNavigate()
 
     const handleArchive = () => {
         const callArchiveApi = async () => {
@@ -24,6 +23,7 @@ function Message({ message }) {
                 const res = await archiveMessage(message._id)
                 if (res.success) {
                     setIsArchived(!isArchived)
+                    onMessageChange()
                 }
             } catch (error) {
                 console.error(error)
@@ -37,7 +37,7 @@ function Message({ message }) {
         if (shouldDelete) {
             try {
                 await deleteMessage(message._id)
-                navigate(0)
+                onMessageChange();
             } catch (error) {
                 console.error(error)
             }
@@ -68,8 +68,7 @@ function Message({ message }) {
                     onChange={handleArchive}
                 />Archived</label>
             </div>
-
-        </div >
+        </div>
     )
 }
 
