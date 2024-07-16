@@ -17,12 +17,3 @@ export const login = async (password) => {
     }
 };
 
-export const checkLoginStatus = async () => {
-    try {
-        const res = await api.get('/check-auth'); // Ensure correct endpoint
-        return res.data;
-    } catch (error) {
-        console.error('Error checking login status:', error);
-        throw error;
-    }
-};

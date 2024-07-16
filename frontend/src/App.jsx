@@ -1,12 +1,12 @@
+import { useState } from 'react'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { login } from '../services/login'
 import './App.css'
 import CreateMessage from './components/CreateMessage'
-import MessageList from './components/MessageList'
-import UpdateMessage from './components/UpdateMessage'
 import Login from './components/Login'
+import MessageList from './components/MessageList'
 import ProtectedRoute from './components/ProtectedRoute'
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom'
-import { checkLoginStatus, login } from '../services/login'
-import { useState, useEffect } from 'react'
+import UpdateMessage from './components/UpdateMessage'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -23,18 +23,6 @@ function App() {
       console.error(error)
     }
   }
-  useEffect(() => {
-    async function fetchData() {
-      const status = await checkLoginStatus()
-      if (status.isAuthenticated) {
-        setIsLoggedIn(true)
-      }
-      else {
-        setIsLoggedIn(false)
-      }
-    }
-    fetchData();
-  }, [])
 
   return (
     <Routes>

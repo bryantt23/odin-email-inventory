@@ -176,18 +176,4 @@ router.post('/login', (req, res) => {
     }
 })
 
-router.get('/check-auth', (req, res) => {
-    try {
-        if (req.session.isAuthenticated) {
-            res.json({ isAuthenticated: true })
-        }
-        else {
-            res.json({ isAuthenticated: false })
-        }
-    } catch (error) {
-        console.error(err);
-        res.status(500).json({ error: err.message });
-    }
-})
-
 module.exports = router
