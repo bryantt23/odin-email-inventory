@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createMessage, getCategories } from '../../services/messages';
 
 function CreateMessage() {
-  const [text, setText] = useState(null)
+  const [text, setText] = useState("")
   const [categories, setCategories] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState(null)
+  const [selectedCategory, setSelectedCategory] = useState("")
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -13,16 +13,15 @@ function CreateMessage() {
       try {
         const res = await getCategories()
         setCategories(res)
+        if (res.length > 0) {
+          setSelectedCategory(res[0])
+        }
       } catch (error) {
         console.error(error)
       }
     }
     fetchData()
   }, [])
-
-  useEffect(() => {
-    setSelectedCategory(categories[0])
-  }, [categories])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

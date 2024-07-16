@@ -165,4 +165,32 @@ router.delete('/messages/:id', async (req, res) => {
     }
 });
 
+router.post('/login', (req, res) => {
+    const submittedPassword = req.body.password
+
+    console.log("🚀 ~ router.post ~ process.env.PASSWORD:", process.env.PASSWORD)
+    if (submittedPassword === process.env.PASSWORD) {
+        req.session.isAuthenticated = true;
+        res.json({ isAuthenticated: true })
+    }
+    else {
+        res.json({ isAuthenticated: false, message: 'Incorrect Password' })
+    }
+})
+
+router.get('/check-auth', (req, res) => {
+    console.log("🚀 ~ app.get ~ req:", req)
+    try {
+        if (req.session.isAuthenticated) {
+            res.json({ isAuthenticated: true })
+        }
+        else {
+            res.json({ isAuthenticated: false })
+        }
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+})
+
 module.exports = router

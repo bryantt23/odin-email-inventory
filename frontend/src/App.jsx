@@ -2,20 +2,52 @@ import './App.css'
 import CreateMessage from './components/CreateMessage'
 import MessageList from './components/MessageList'
 import UpdateMessage from './components/UpdateMessage'
-import { Route, Routes } from 'react-router-dom'
+import Login from './components/Login'
+import ProtectedRoute from './components/ProtectedRoute'
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom'
+import { checkLoginStatus, login } from '../services/login'
+import { useState, useEffect } from 'react'
 
 function App() {
-  /*
-  TODO secure routes
-  * */
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const navigate = useNavigate()
+
+  const handleLogin = async (password) => {
+    try {
+      const res = await login(password)
+      console.log("🚀 ~ handleLogin ~ res:", res)
+      if (res.isAuthenticated) {
+        setIsLoggedIn(true)
+        navigate('/messages')
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  useEffect(() => {
+    async function fetchData() {
+      const status = await checkLoginStatus()
+      console.log("🚀 ~ fetchData ~ status:", status)
+      if (status.isAuthenticated) {
+        setIsLoggedIn(true)
+      }
+      else {
+        setIsLoggedIn(false)
+      }
+    }
+    fetchData();
+  }, [])
 
   return (
     <Routes>
-      <Route path="/messages" element={<MessageList />} />
-      <Route path="/messages/create" element={<CreateMessage />} />
-      <Route path="/messages/:id/update" element={<UpdateMessage />} />
+      <Route path="/login" element={<Login handleLogin={handleLogin} />} />
+      <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+        <Route path="/messages" element={<MessageList />} />
+        <Route path="/messages/create" element={<CreateMessage />} />
+        <Route path="/messages/:id/update" element={<UpdateMessage />} />
+      </Route>
+      <Route path="*" element={<Navigate to={isLoggedIn ? "/message" : "/login"} replace />} />
     </Routes>
-
   )
 }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getMessages } from '../../services/messages'
 import "./MessageList.css"
 import Message from './Message'
+import { Link } from 'react-router-dom'
 
 function MessageList() {
     const [selectedOption, setSelectedOption] = useState(() => {
@@ -47,7 +48,7 @@ function MessageList() {
 
             <h1>Messages List</h1>
             <p>Welcome to Messages List</p>
-            <p><a href="/messages/create">Add a Message</a></p>
+            <p><Link to="/messages/create">Add a Message</Link></p>
 
             <div className="grid-container">
                 <select
