@@ -1,7 +1,32 @@
 const express = require('express')
+const jwt = require('jsonwebtoken')
 const { body, validationResult } = require('express-validator')
 const router = express.Router()
 const Message = require('../models/message')
+const bcrypt = require('bcryptjs')
+const authenticateToken = require('../middlewars/auth')
+require('dotenv').config();
+const secretKey = process.env.JWT_SECRET
+
+const generateToken = (payload) => {
+    return jwt.sign(payload, secretKey, { expiresIn: '7d' })
+}
+
+// Login route
+router.post('/login', async (req, res) => {
+    const { password } = req.body;
+    const isPasswordCorrect = await bcrypt.compare(password, process.env.PASSWORD)
+
+    if (isPasswordCorrect) {
+        const token = generateToken({ user: 'your_user_identifier' })
+        res.json({ isAuthenticated: true, token })
+    } else {
+        res.json({ isAuthenticated: false, message: 'Incorrect Password' });
+    }
+});
+
+// Protect the following routes with the JWT middleware
+router.use(authenticateToken)
 
 // Get message categories
 router.get('/messages/categories', async (req, res) => {
@@ -164,16 +189,5 @@ router.delete('/messages/:id', async (req, res) => {
         res.status(500).json({ error: err.message })
     }
 });
-
-router.post('/login', (req, res) => {
-    const submittedPassword = req.body.password
-    if (submittedPassword === process.env.PASSWORD) {
-        req.session.isAuthenticated = true;
-        res.json({ isAuthenticated: true })
-    }
-    else {
-        res.json({ isAuthenticated: false, message: 'Incorrect Password' })
-    }
-})
 
 module.exports = router
