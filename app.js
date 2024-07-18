@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.post('/login', (req, res) => {
   const submittedPassword = req.body.password;
 
-  if (submittedPassword === process.env.PASSWORD) {
+  if (submittedPassword === process.env.UI_PASSWORD) {
     req.session.isAuthenticated = true;
     res.redirect('/messages');
   } else {
