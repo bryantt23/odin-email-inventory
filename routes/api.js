@@ -45,12 +45,14 @@ router.get('/messages', async (req, res) => {
     try {
         const allMessages = await Message.find().sort({ category: 1, text: 1 })
         const jobMessages = allMessages.filter(message => message.category === "Jobs");
+        const studioMessages = allMessages.filter(message => message.category === "Studio")
         const tinderMessages = allMessages.filter(message => ["Tinder", "General", "OkCupid", "Hinge", "CMB", "Badoo", "TanTan"].includes(message.category));
 
         const structuredMessages = {
             messages: {
                 tinderMessages,
                 jobMessages,
+                studioMessages,
                 allMessages
             },
             title: 'Messages List'
